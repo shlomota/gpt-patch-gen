@@ -1,0 +1,15 @@
+--- example.py
++++ example.py
+@@ -1,8 +1,10 @@
+ def foo(x):
+    if x < 0:
+        return "negative"
+    elif x == 0:
+        return "zero"
+    else:
+        return "positive"
+
++    if x == float('inf'):
++        return "infinity"
++    elif x != x:  # Check for NaN
++        return "not a number"

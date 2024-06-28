@@ -1,0 +1,13 @@
+diff
+--- original.py
++++ modified.py
+@@ -1,6 +1,9 @@
+ def foo(x):
+-    if x < 0:
+-        return "negative"
++    if x == 0:
++        return "zero"
++    elif x < 0:
++        return "negative"
+     else:
+         return "positive"
