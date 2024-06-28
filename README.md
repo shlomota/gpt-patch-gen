@@ -3,19 +3,23 @@
 GPTPatchGen is a tool that generates and applies patch files to update a code repository using OpenAI's API.
 
 ## Project Structure
-
-.
-├── examples
-│   └── example_script.py
-├── requirements.txt
-└── src
-    ├── __pycache__
-    │   ├── api_client.cpython-311.pyc
-    │   ├── file_preprocessor.cpython-311.pyc
-    │   └── patch_generator.cpython-311.pyc
-    ├── api_client.py
-    ├── file_preprocessor.py
-    └── patch_generator.py
+- `demo-repo/`: A submodule containing example files for demonstrating patch application.
+  - `another_example.py`
+  - `example.py`
+  - `orig/`
+    - `another_example.py`
+    - `example.py`
+- `examples/`: Directory containing example scripts.
+  - `example_script.py`
+- `requirements.txt`: File containing project dependencies.
+- `src/`: Directory containing source code for the project.
+  - `__pycache__/`: Directory containing cached bytecode files.
+    - `api_client.cpython-311.pyc`
+    - `file_preprocessor.cpython-311.pyc`
+    - `patch_generator.cpython-311.pyc`
+  - `api_client.py`
+  - `file_preprocessor.py`
+  - `patch_generator.py`
 
 ## Installation
 
