@@ -58,7 +58,7 @@ def main():
     for file_name in file_names:
         file_path = os.path.join(target_repo_path, file_name)
         with open(file_path, 'r') as file:
-            file_contents[file_name] = file.read()
+            file_contents[file_name] = add_line_numbers(file.read())
 
     # Combine file contents for context
     combined_context = "\n".join([f"File name: {name}\n{content}" for name, content in file_contents.items()])
