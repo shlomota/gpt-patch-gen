@@ -81,3 +81,18 @@ def apply_patch(patch_content, patch_file_path, target_repo_path):
         print("Patch application aborted.")
         return False
     return True
+
+def ensure_openai_key():
+    openai_key = os.getenv("OPENAI_API_KEY")
+    if not openai_key:
+        openai_key = input("Enter your OpenAI API key: ").strip()
+        os.environ["OPENAI_API_KEY"] = openai_key
+
+        save_persistent = input("Do you want to save the OpenAI API key in your ~/.bashrc for persistence? (yes/no): ").strip().lower()
+        if save_persistent in ["yes", "y"]:
+            bashrc_path = os.path.expanduser("~/.bashrc")
+            with open(bashrc_path, "a") as bashrc_file:
+                bashrc_file.write(f"\n# OpenAI API key\nexport OPENAI_API_KEY={openai_key}\n")
+            print("OpenAI API key saved in ~/.bashrc. Please run 'source ~/.bashrc' to apply the changes.")
+    else:
+        print("Using OpenAI API key from environment variables.")

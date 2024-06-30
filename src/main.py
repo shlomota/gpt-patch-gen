@@ -2,11 +2,14 @@ import os
 import argparse
 from patch_generator import generate_patch
 from file_preprocessor import add_line_numbers, remove_line_numbers
-from utils import colorize_patch, apply_patch
+from utils import colorize_patch, apply_patch, ensure_openai_key
 from colorama import init
 
 def main():
     init(autoreset=True)  # Initialize colorama
+
+    # Ensure OpenAI key is available
+    ensure_openai_key()
 
     # Parse command-line arguments
     parser = argparse.ArgumentParser(description="Generate and apply patches to a target Git repository.")
