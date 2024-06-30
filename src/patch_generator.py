@@ -5,6 +5,8 @@ def generate_patch(file_names, combined_context, change_description):
     prompt = (
         f"Generate unified diff patches for the following file contents. "
         f"Ensure to provide sufficient context and do not include line numbers in the content. "
+        f"Use similar code patterns to what is provided in the context to generate the patches. "
+        f"You may need to add or remove lines, modify existing lines, or fix issues in the code."
         f"Return each patch enclosed in triple backticks, and if no changes are needed for a file, respond with 'No changes needed' within triple backticks:\n\n"
         f"{combined_context}\n\n"
         f"Change description: {change_description}"

@@ -5,13 +5,15 @@ from file_preprocessor import add_line_numbers, remove_line_numbers
 from utils import colorize_patch, apply_patch
 from colorama import init
 
+
 def ensure_openai_key():
     openai_key = os.getenv("OPENAI_API_KEY")
     if not openai_key:
         openai_key = input("Enter your OpenAI API key: ").strip()
         os.environ["OPENAI_API_KEY"] = openai_key
 
-        save_persistent = input("Do you want to save the OpenAI API key in your ~/.bashrc for persistence? (yes/no): ").strip().lower()
+        save_persistent = input(
+            "Do you want to save the OpenAI API key in your ~/.bashrc for persistence? (yes/no): ").strip().lower()
         if save_persistent in ["yes", "y"]:
             bashrc_path = os.path.expanduser("~/.bashrc")
             with open(bashrc_path, "a") as bashrc_file:
@@ -20,11 +22,13 @@ def ensure_openai_key():
     else:
         print("Using OpenAI API key from environment variables.")
 
+
 def extract_patch_number(patch_file_name):
     try:
         return int(patch_file_name.split('_')[0])
     except ValueError:
         return -1
+
 
 def main():
     init(autoreset=True)  # Initialize colorama
@@ -34,14 +38,16 @@ def main():
 
     # Parse command-line arguments
     parser = argparse.ArgumentParser(description="Generate and apply patches to a target Git repository.")
-    parser.add_argument('-d', '--directory', type=str, default=os.getcwd(), help="Target repository directory (default: current directory)")
+    parser.add_argument('-d', '--directory', type=str, default=os.getcwd(),
+                        help="Target repository directory (default: current directory)")
     args = parser.parse_args()
 
     target_repo_path = args.directory
 
     # Get user input for prompt and file names
     change_description = input("Enter the change description: ")
-    file_names = [file_name.strip() for file_name in input("Enter a comma-separated list of local files to send as context: ").split(',')]
+    file_names = [file_name.strip() for file_name in
+                  input("Enter a comma-separated list of local files to send as context: ").split(',')]
 
     # Ensure patch_files directory exists
     patch_files_path = os.path.join(target_repo_path, 'patch_files')
@@ -74,10 +80,25 @@ def main():
         patch_file_name = f"{next_patch_number:04d}_{file_name.replace('/', '_')}.diff"
         patch_file_path = os.path.join(patch_files_path, patch_file_name)
         print(f"\nSaving patch to {patch_file_path} and applying it...")
-        success = apply_patch(patch, patch_file_path, target_repo_path)
-        if not success:
-            input("After making the manual changes, press Enter to proceed to the next patch...")
-        next_patch_number += 1
+
+        while True:
+            confirmation = input("Do you want to apply this patch? (yes/skip/quit): ").strip().lower()
+            if confirmation in ['yes', 'y']:
+                success = apply_patch(patch, patch_file_path, target_repo_path)
+                if not success:
+                    input("After making the manual changes, press Enter to proceed to the next patch...")
+                next_patch_number += 1
+                break
+            elif confirmation in ['skip', 's']:
+                print("Skipping this patch.")
+                next_patch_number += 1
+                break
+            elif confirmation in ['quit', 'q']:
+                print("Quitting the process.")
+                return
+            else:
+                print("Invalid option. Please enter 'yes', 'skip', or 'quit'.")
+
 
 if __name__ == "__main__":
     main()
