@@ -1,8 +1,8 @@
 import os
 import argparse
-from src.patch_generator import generate_patch
-from src.file_preprocessor import add_line_numbers, remove_line_numbers
-from src.utils import colorize_patch, apply_patch
+from patch_generator import generate_patch
+from file_preprocessor import add_line_numbers, remove_line_numbers
+from utils import colorize_patch, apply_patch
 from colorama import init
 
 def main():
